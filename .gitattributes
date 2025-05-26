@@ -1,0 +1,49 @@
+# ==========================================
+# Unity-specific .gitattributes
+# ==========================================
+
+# Treat text files as text and normalize line endings to LF in repo, convert to CRLF on Windows checkout
+*.cs text eol=lf
+*.shader text eol=lf
+*.cginc text eol=lf
+*.compute text eol=lf
+*.txt text eol=lf
+*.json text eol=lf
+*.xml text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.asmdef text eol=lf
+*.unity text eol=lf
+*.prefab text eol=lf
+*.asset text eol=lf
+*.meta text eol=lf
+*.md text eol=lf
+
+# Unity and binary files – mark as binary to prevent diff
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.psd binary
+*.tga binary
+*.fbx binary
+*.mat binary
+*.mp3 binary
+*.ogg binary
+*.wav binary
+*.mp4 binary
+*.avi binary
+*.mov binary
+*.prefab binary
+*.unity binary
+*.anim binary
+*.controller binary
+*.physicMaterial binary
+*.ttf binary
+*.otf binary
+*.dll binary
+*.exe binary
+
+# Ignore Git merge conflict markers in serialized assets
+*.meta merge=union
+*.unity merge=union
+*.prefab merge=union
