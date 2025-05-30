@@ -99,6 +99,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MegaJump"",
+                    ""type"": ""Button"",
+                    ""id"": ""e39e92cf-b624-47bf-9313-aa40c29ad4e7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -121,6 +130,28 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bc1ddbbe-6f06-41a9-9782-e7b085a4e11f"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MegaJump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b87dbe38-5c54-4ae4-b709-158ef862e0a7"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MegaJump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -171,6 +202,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Bird
         m_Bird = asset.FindActionMap("Bird", throwIfNotFound: true);
         m_Bird_Jump = m_Bird.FindAction("Jump", throwIfNotFound: true);
+        m_Bird_MegaJump = m_Bird.FindAction("MegaJump", throwIfNotFound: true);
         // Global
         m_Global = asset.FindActionMap("Global", throwIfNotFound: true);
         m_Global_Submit = m_Global.FindAction("Submit", throwIfNotFound: true);
@@ -256,6 +288,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Bird;
     private List<IBirdActions> m_BirdActionsCallbackInterfaces = new List<IBirdActions>();
     private readonly InputAction m_Bird_Jump;
+    private readonly InputAction m_Bird_MegaJump;
     /// <summary>
     /// Provides access to input actions defined in input action map "Bird".
     /// </summary>
@@ -271,6 +304,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Bird/Jump".
         /// </summary>
         public InputAction @Jump => m_Wrapper.m_Bird_Jump;
+        /// <summary>
+        /// Provides access to the underlying input action "Bird/MegaJump".
+        /// </summary>
+        public InputAction @MegaJump => m_Wrapper.m_Bird_MegaJump;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -300,6 +337,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @MegaJump.started += instance.OnMegaJump;
+            @MegaJump.performed += instance.OnMegaJump;
+            @MegaJump.canceled += instance.OnMegaJump;
         }
 
         /// <summary>
@@ -314,6 +354,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @MegaJump.started -= instance.OnMegaJump;
+            @MegaJump.performed -= instance.OnMegaJump;
+            @MegaJump.canceled -= instance.OnMegaJump;
         }
 
         /// <summary>
@@ -457,6 +500,13 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnJump(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "MegaJump" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMegaJump(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Global" which allows adding and removing callbacks.

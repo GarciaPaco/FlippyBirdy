@@ -2,11 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using TMPro;
 
 
 public class LogicScript : MonoBehaviour
 {
-
+    public static LogicScript Instance { get; private set; }
     public int playerScore;
     public Text scoreText;
     public GameObject gameOverScreen;
@@ -14,20 +15,25 @@ public class LogicScript : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip scoreSound;
     [SerializeField] private AudioClip gameOverSound;
+
+    public Text finalScoreText;
+    public TMP_Text highScoreText;
     [SerializeField] private Button tryAgainButton;
     private PlayerInput playerInput;
 
-/*     private void OnEnable()
+    private void Awake()
     {
-        playerInput = GetComponent<PlayerInput>();
-        playerInput.actions["Submit"].performed += OnSubmit;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Debug.LogWarning("Multiple LogicScript instances found, destroying duplicate.");
+            Destroy(gameObject);
+        }
     }
 
-    private void OnDisable()
-    {
-        if (playerInput != null)
-            playerInput.actions["Submit"].performed -= OnSubmit;
-    } */
 
     public void addScore(int scoreToAdd)
     {
@@ -40,6 +46,28 @@ public class LogicScript : MonoBehaviour
         }
     }
 
+    public void HighScoreUpdate()
+    {
+        //Is there already a highscore?
+        if (PlayerPrefs.HasKey("SavedHighScore"))
+        {
+            //Is the new score higher than the saved one?
+            if (playerScore > PlayerPrefs.GetInt("SavedHighScore"))
+            {
+                //Set a new high score
+                PlayerPrefs.SetInt("SavedHighScore", playerScore);
+
+            }
+        }
+        else
+        {
+            //If there is no highscore...set it
+            PlayerPrefs.SetInt("SavedHighScore", playerScore);
+        }
+        //Update our TMP
+        finalScoreText.text = playerScore.ToString();
+        highScoreText.text = PlayerPrefs.GetInt("SavedHighScore").ToString();
+    }
     public void restartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -53,6 +81,7 @@ public class LogicScript : MonoBehaviour
             audioSource.PlayOneShot(gameOverSound);
         }
         gameOverScreen.SetActive(true);
+        HighScoreUpdate();
         Time.timeScale = 0f;
     }
 
@@ -65,12 +94,12 @@ public class LogicScript : MonoBehaviour
     }
 
     public void quitGame()
-{
-    #if UNITY_EDITOR
+    {
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false; // Pour arrêter le jeu dans l'éditeur
-    #else
+#else
         Application.Quit(); // Pour fermer le jeu en build
-    #endif
-}
+#endif
+    }
 
 }

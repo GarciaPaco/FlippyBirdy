@@ -3,17 +3,26 @@ using UnityEngine;
 public class PipeSpawnScript : MonoBehaviour
 {
     public GameObject pipe;
-    public float spawnRate = 2;
+    public float baseSpawnRate = 1.5f; // Le spawn rate initial
+    public float spawnRate;
     private float timer = 0;
     public float heightOffset = 10;
+    [SerializeField] private LogicScript logic;
+    public float minSpawnRate = 0.8f; // Limite minimale
+
     void Start()
     {
+        spawnRate = baseSpawnRate;
         spawnPipe();
     }
 
     // Update is called once per frame
     void Update()
     {
+        int currentScore = logic.playerScore;
+        int multiplierSteps = currentScore / 10; // 1 step tous les 10 points
+        float rateMultiplier = 1f - (0.1f * multiplierSteps); // -10% par palier
+        spawnRate = Mathf.Max(minSpawnRate, baseSpawnRate * rateMultiplier);
         if (timer < spawnRate)
         {
             timer += Time.deltaTime;
