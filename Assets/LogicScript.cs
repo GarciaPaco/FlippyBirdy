@@ -18,6 +18,8 @@ public class LogicScript : MonoBehaviour
 
     public Text finalScoreText;
     public TMP_Text highScoreText;
+    public TMP_Text yourScoreText;
+
     [SerializeField] private Button tryAgainButton;
     private PlayerInput playerInput;
 
@@ -67,6 +69,7 @@ public class LogicScript : MonoBehaviour
         //Update our TMP
         finalScoreText.text = playerScore.ToString();
         highScoreText.text = PlayerPrefs.GetInt("SavedHighScore").ToString();
+        yourScoreText.text = playerScore.ToString();
     }
     public void restartGame()
     {
@@ -98,8 +101,12 @@ public class LogicScript : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false; // Pour arrêter le jeu dans l'éditeur
 #else
-        Application.Quit(); // Pour fermer le jeu en build
+                Application.Quit(); // Pour fermer le jeu en build
 #endif
+    }
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("MainMenuScene");
     }
 
 }
